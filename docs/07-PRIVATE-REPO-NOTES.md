@@ -18,7 +18,11 @@ https://github.com/Rad-ops/local-ai-coding-stack.git
 
 ## Privacy
 
-The intended GitHub repo is private.
+Created as a private GitHub repo and pushed to origin/main.
+
+## Push Status
+
+Initial commit pushed to `origin/main`.
 
 ## What Was Committed
 
