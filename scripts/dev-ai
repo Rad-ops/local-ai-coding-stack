@@ -1,0 +1,43 @@
+#!/usr/bin/env fish
+
+function usage
+    echo "Usage:"
+    echo "  dev-ai coder [files...]"
+    echo "  dev-ai fast [files...]"
+    echo "  dev-ai big [files...]"
+    echo "  dev-ai deepseek [files...]"
+    echo "  dev-ai qwen14 [files...]"
+    echo "  dev-ai status"
+    echo "  dev-ai stop"
+    echo "  dev-ai logs"
+end
+
+set mode $argv[1]
+set files $argv[2..-1]
+
+if test -z "$mode"
+    usage
+    exit 1
+end
+
+switch "$mode"
+    case status
+        llm-status
+    case stop
+        llm-stop
+    case logs
+        llm-logs
+    case coder
+        llm-switch coder; and aider-local $files
+    case fast coder-fast
+        llm-switch coder-fast; and aider-local $files
+    case big coder-big
+        llm-switch coder-big; and aider-local $files
+    case deepseek
+        llm-switch deepseek; and aider-local $files
+    case qwen14
+        llm-switch qwen14; and aider-local $files
+    case '*'
+        usage
+        exit 1
+end

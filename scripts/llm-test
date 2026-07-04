@@ -1,0 +1,5 @@
+#!/usr/bin/env fish
+
+curl -s http://127.0.0.1:8080/v1/chat/completions \
+  -H "Content-Type: application/json" \
+  -d '{ "model": "local", "messages": [ { "role": "user", "content": "Write a short Python function that takes a list of dictionaries and returns the email from the first item." } ], "temperature": 0.7, "top_p": 0.8, "max_tokens": 512 }' | jq -r ".choices[0].message.content"

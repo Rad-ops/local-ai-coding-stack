@@ -1,0 +1,125 @@
+#!/usr/bin/env fish
+
+set CONFIG "$HOME/.config/local-llm/current-model.env"
+set API_URL "http://127.0.0.1:8080/v1/models"
+
+function usage
+    echo "Usage:"
+    echo "  llm-switch coder"
+    echo "  llm-switch coder-fast"
+    echo "  llm-switch coder-big"
+    echo "  llm-switch deepseek"
+    echo "  llm-switch qwen14"
+    echo "  llm-switch <profile> <ctx> <cache> <batch> <ubatch>"
+end
+
+function require_file
+    set file $argv[1]
+    if not test -f "$file"
+        echo "ERROR: model file not found: $file" >&2
+        exit 1
+    end
+end
+
+set profile $argv[1]
+set override_ctx $argv[2]
+set override_cache $argv[3]
+set override_batch $argv[4]
+set override_ubatch $argv[5]
+
+if test -z "$profile"
+    usage
+    exit 1
+end
+
+set THREADS 16
+
+switch "$profile"
+    case coder
+        set MODEL_NAME "Qwen3-Coder-30B-A3B"
+        set MODEL_PATH "$HOME/ai/models/qwen3-coder-30b-a3b/Qwen3-Coder-30B-A3B-Instruct-UD-Q4_K_XL.gguf"
+        set CTX_SIZE 8192
+        set CACHE q8_0
+        set BATCH_SIZE 512
+        set UBATCH_SIZE 128
+    case coder-fast fast
+        set MODEL_NAME "Qwen3-Coder-30B-A3B"
+        set MODEL_PATH "$HOME/ai/models/qwen3-coder-30b-a3b/Qwen3-Coder-30B-A3B-Instruct-UD-Q4_K_XL.gguf"
+        set CTX_SIZE 4096
+        set CACHE q8_0
+        set BATCH_SIZE 512
+        set UBATCH_SIZE 128
+    case coder-big big
+        set MODEL_NAME "Qwen3-Coder-30B-A3B"
+        set MODEL_PATH "$HOME/ai/models/qwen3-coder-30b-a3b/Qwen3-Coder-30B-A3B-Instruct-UD-Q4_K_XL.gguf"
+        set CTX_SIZE 16384
+        set CACHE q4_0
+        set BATCH_SIZE 256
+        set UBATCH_SIZE 64
+    case deepseek
+        set MODEL_NAME "DeepSeek-R1-Distill-Qwen-14B"
+        set MODEL_PATH "$HOME/ai/models/deepseek-r1-qwen-14b/DeepSeek-R1-Distill-Qwen-14B-Q5_K_M.gguf"
+        set CTX_SIZE 8192
+        set CACHE q8_0
+        set BATCH_SIZE 512
+        set UBATCH_SIZE 128
+    case qwen14
+        set MODEL_NAME "Qwen3-14B"
+        set MODEL_PATH "$HOME/ai/models/qwen3-14b/Qwen3-14B-Q5_K_M.gguf"
+        set CTX_SIZE 8192
+        set CACHE q8_0
+        set BATCH_SIZE 512
+        set UBATCH_SIZE 128
+    case '*'
+        usage
+        exit 1
+end
+
+if test -n "$override_ctx"
+    set CTX_SIZE "$override_ctx"
+end
+if test -n "$override_cache"
+    set CACHE "$override_cache"
+end
+if test -n "$override_batch"
+    set BATCH_SIZE "$override_batch"
+end
+if test -n "$override_ubatch"
+    set UBATCH_SIZE "$override_ubatch"
+end
+
+require_file "$MODEL_PATH"
+mkdir -p (dirname "$CONFIG")
+
+printf "MODEL_PATH=%s\nCTX_SIZE=%s\nTHREADS=%s\nBATCH_SIZE=%s\nUBATCH_SIZE=%s\nCACHE_TYPE_K=%s\nCACHE_TYPE_V=%s\n" \
+    "$MODEL_PATH" "$CTX_SIZE" "$THREADS" "$BATCH_SIZE" "$UBATCH_SIZE" "$CACHE" "$CACHE" > "$CONFIG"
+
+echo "Switching local LLM:"
+echo "  Profile: $profile"
+echo "  Model:   $MODEL_NAME"
+echo "  Path:    $MODEL_PATH"
+echo "  Context: $CTX_SIZE"
+echo "  Cache:   $CACHE"
+echo "  Batch:   $BATCH_SIZE"
+echo "  uBatch:  $UBATCH_SIZE"
+
+systemctl --user restart local-llm
+if test $status -ne 0
+    echo "ERROR: failed to restart local-llm" >&2
+    exit 1
+end
+
+echo "Waiting for API: $API_URL"
+for i in (seq 1 180)
+    if curl -fsS "$API_URL" >/dev/null 2>&1
+        echo "Ready."
+        echo "GPU memory:"
+        nvidia-smi --query-gpu=name,memory.used,memory.total,utilization.gpu --format=csv,noheader,nounits
+        exit 0
+    end
+    sleep 1
+end
+
+echo "ERROR: server did not become ready within 180 seconds." >&2
+echo "Try: llm-logs" >&2
+exit 1

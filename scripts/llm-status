@@ -1,0 +1,16 @@
+#!/usr/bin/env fish
+
+echo "Service:"
+systemctl --user status local-llm --no-pager
+
+echo ""
+echo "Current config:"
+cat ~/.config/local-llm/current-model.env
+
+echo ""
+echo "GPU:"
+nvidia-smi --query-gpu=name,memory.used,memory.total,utilization.gpu --format=csv
+
+echo ""
+echo "API models:"
+curl -fsS http://127.0.0.1:8080/v1/models 2>/dev/null | jq; or echo "API not responding"

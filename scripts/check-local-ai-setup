@@ -1,0 +1,67 @@
+#!/usr/bin/env fish
+
+set REPORT "$HOME/local-ai-setup-report.txt"
+set API_URL "http://127.0.0.1:8080/v1/models"
+
+function section
+    echo ""
+    echo "============================================================"
+    echo "$argv"
+    echo "============================================================"
+end
+
+function run_check
+    echo ""
+    echo ">>> $argv"
+    eval $argv
+    echo "EXIT_CODE=$status"
+end
+
+echo "Local AI Setup Report" > "$REPORT"
+echo "Generated: "(date) >> "$REPORT"
+echo "User: "(whoami) >> "$REPORT"
+echo "Host: "(hostname) >> "$REPORT"
+echo "Shell: $SHELL" >> "$REPORT"
+
+begin
+    section "HELPER COMMANDS"
+    run_check "echo \$PATH"
+    for c in llm-switch llm-status llm-test llm-stop llm-logs aider-local aider-openrouter dev-ai cleanup-local-ai check-local-ai-setup aider curl jq systemctl nvidia-smi
+        run_check "command -v $c"
+    end
+
+    section "LLAMA.CPP BINARIES"
+    run_check "ls -lh ~/ai/llama.cpp/build/bin/llama-server ~/ai/llama.cpp/build/bin/llama-cli"
+
+    section "GGUF MODEL FILES"
+    run_check "find ~/ai/models -type f -name '*.gguf' -exec ls -lh {} \\;"
+
+    section "LOCAL CONFIG"
+    run_check "cat ~/.config/local-llm/current-model.env"
+
+    section "SYSTEMD SERVICE"
+    run_check "cat ~/.config/systemd/user/local-llm.service"
+    run_check "systemctl --user is-enabled local-llm"
+    run_check "systemctl --user status local-llm --no-pager"
+
+    section "GPU AND MEMORY"
+    run_check "nvidia-smi"
+    run_check "free -h"
+
+    section "LOCAL API STATUS"
+    run_check "curl -fsS $API_URL"
+
+    section "AIDER VERSION"
+    run_check "aider --version"
+
+    section "FINAL GPU STATE"
+    run_check "nvidia-smi"
+
+    section "SUMMARY"
+    echo "This audit does not delete files and does not switch models."
+    echo "Expected default endpoint: http://127.0.0.1:8080/v1"
+    echo "Expected service autostart state: disabled."
+end >> "$REPORT" 2>&1
+
+echo "Report written to:"
+echo "$REPORT"

@@ -1,0 +1,5 @@
+#!/usr/bin/env fish
+
+systemctl --user stop local-llm
+echo "Stopped local LLM server."
+nvidia-smi --query-gpu=name,memory.used,memory.total --format=csv,noheader,nounits

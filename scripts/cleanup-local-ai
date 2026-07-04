@@ -1,0 +1,62 @@
+#!/usr/bin/env fish
+
+set mode $argv[1]
+
+function usage
+    echo "Usage:"
+    echo "  cleanup-local-ai --dry-run"
+    echo "  cleanup-local-ai --apply"
+end
+
+function show_item
+    set kind $argv[1]
+    set path $argv[2]
+    if test "$mode" = "--dry-run"
+        echo "Would remove $kind: $path"
+    else
+        echo "Removing $kind: $path"
+        rm -rf "$path"
+    end
+end
+
+if test "$mode" != "--dry-run"; and test "$mode" != "--apply"
+    usage
+    exit 1
+end
+
+echo "Protected paths:"
+echo "  $HOME/ai/models"
+echo "  $HOME/ai/llama.cpp"
+echo "  $HOME/ai/local-ai-stack"
+echo "  *.gguf files"
+echo ""
+
+if test "$mode" = "--apply"
+    echo "Stopping and disabling local-llm so it does not autostart or keep VRAM allocated."
+    systemctl --user stop local-llm
+    systemctl --user disable local-llm
+else
+    echo "Would stop and disable local-llm."
+end
+
+if test -d "$HOME/ai/aider-venv"
+    show_item "old virtualenv" "$HOME/ai/aider-venv"
+else
+    echo "No old virtualenv found: $HOME/ai/aider-venv"
+end
+
+if test -f "$HOME/local-ai-setup-report.txt"
+    show_item "stale report" "$HOME/local-ai-setup-report.txt"
+else
+    echo "No stale report found: $HOME/local-ai-setup-report.txt"
+end
+
+for path in (find "$HOME/ai" -type f \( -name "*.incomplete" -o -name "*.tmp" \) 2>/dev/null)
+    if string match -q "*.gguf" "$path"
+        echo "Skipping protected GGUF-like path: $path"
+    else
+        show_item "temporary download" "$path"
+    end
+end
+
+echo "Cleanup complete for mode: $mode"

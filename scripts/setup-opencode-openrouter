@@ -1,0 +1,34 @@
+#!/usr/bin/env fish
+
+echo "OpenCode OpenRouter setup check"
+echo ""
+
+if command -q opencode
+    echo "opencode: installed at "(command -v opencode)
+else
+    echo "opencode: not installed"
+    echo ""
+    echo "Install OpenCode manually from its official documentation, then rerun:"
+    echo "  setup-opencode-openrouter"
+    echo ""
+    echo "This script will not install it automatically because package source and install method should be chosen explicitly on this machine."
+end
+
+echo ""
+if set -q OPENROUTER_API_KEY
+    echo "OPENROUTER_API_KEY: set"
+else
+    echo "OPENROUTER_API_KEY: missing"
+    echo 'Set it in fish with: set -Ux OPENROUTER_API_KEY "paste_key_here"'
+end
+
+echo ""
+echo "OpenCode connection steps:"
+echo "  1. Run: opencode-openrouter"
+echo "  2. Inside OpenCode, run: /connect"
+echo "  3. Select OpenRouter"
+echo "  4. Use your OpenRouter key from the environment or paste it when prompted"
+echo "  5. Run: /models"
+echo "  6. Choose the OpenRouter model you want"
+echo ""
+echo "This script does not print or write your API key."

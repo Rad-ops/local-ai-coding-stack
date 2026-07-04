@@ -1,0 +1,6 @@
+#!/usr/bin/env fish
+
+set -x OPENAI_API_BASE "https://openrouter.ai/api/v1"
+set -x OPENAI_API_KEY "$OPENROUTER_API_KEY"
+
+aider --model openai/qwen/qwen3-coder-30b-a3b-instruct $argv

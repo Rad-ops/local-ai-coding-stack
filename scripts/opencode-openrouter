@@ -1,0 +1,11 @@
+#!/usr/bin/env fish
+
+if not set -q OPENROUTER_API_KEY
+    echo "ERROR: OPENROUTER_API_KEY is not set."
+    echo 'Set it with: set -Ux OPENROUTER_API_KEY "your_key_here"'
+    exit 1
+end
+
+set -x OPENROUTER_API_KEY "$OPENROUTER_API_KEY"
+
+opencode $argv
