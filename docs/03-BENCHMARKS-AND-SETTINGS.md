@@ -3,21 +3,23 @@
 ## Benchmark CSV
 
 ```csv
-timestamp,profile,model,ctx,cache,batch,ubatch,api_ok,reply_ok,gen_tps,llama_vram_mib,total_vram_mib,ram_used
-2026-07-04T14:00:46-04:00,coder-fast,coder,4096,q8_0,512,128,yes,yes,40.50,9698MiB,10920,5.8Gi/30Gi
-2026-07-04T14:01:07-04:00,coder-default,coder,8192,q8_0,512,128,yes,yes,41.87,9578MiB,10713,5.8Gi/30Gi
-2026-07-04T14:01:31-04:00,coder-big,coder,16384,q4_0,256,64,yes,yes,33.86,9704MiB,10877,5.8Gi/30Gi
-2026-07-04T14:02:16-04:00,deepseek-default,deepseek,8192,q8_0,512,128,yes,yes,18.81,9594MiB,10704,5.5Gi/30Gi
-2026-07-04T14:03:00-04:00,qwen14-default,qwen14,8192,q8_0,512,128,yes,no,20.02,9530MiB,10625,5.6Gi/30Gi
+timestamp,profile,model,test,ctx,cache,batch,ubatch,api_ok,gen_tps,prompt_tps,draft_accept,notes
+2026-07-05T07:00:00-04:00,qwen36,Qwen3.6-35B-A3B-MTP,code_python,131072,q8_0,512,128,yes,84.96,151.74,90.6%,live llama.cpp benchmark
+2026-07-05T07:00:00-04:00,qwen36,Qwen3.6-35B-A3B-MTP,code_cpp,131072,q8_0,512,128,yes,92.69,165.49,94.7%,live llama.cpp benchmark
+2026-07-05T07:00:00-04:00,qwen36,Qwen3.6-35B-A3B-MTP,explain_concept,131072,q8_0,512,128,yes,74.49,138.60,68.3%,live llama.cpp benchmark
+2026-07-05T07:00:00-04:00,qwen36,Qwen3.6-35B-A3B-MTP,qa_factual,131072,q8_0,512,128,yes,70.10,144.42,64.6%,live llama.cpp benchmark
+2026-07-05T07:00:00-04:00,qwen36,Qwen3.6-35B-A3B-MTP,json_classify,131072,q8_0,512,128,yes,73.48,178.35,100.0%,live llama.cpp benchmark
+2026-07-05T11:00:00-04:00,deepseek,DeepSeek-R1-Distill-Qwen-32B,installed,8192,q4_0,256,64,not_run,,,,installed but not benchmarked to avoid interrupting active qwen36 service
 ```
 
-## Final Settings
+## Current Settings
 
 | Profile | Context | Cache | Batch | uBatch | Use |
 | --- | ---: | --- | ---: | ---: | --- |
-| `coder` | 8192 | q8_0 | 512 | 128 | Daily coding |
-| `coder-big` | 16384 | q4_0 | 256 | 64 | Large context |
-| `deepseek` | 8192 | q8_0 | 512 | 128 | Reasoning fallback |
+| `coder`, `qwen36` | 131072 | q8_0 | auto-fit | auto-fit | Default daily coding |
+| `fast`, `qwen36-fast` | 32768 | q8_0 | auto-fit | auto-fit | Quick smaller-context work |
+| `big`, `qwen36-big` | 131072 | q8_0 | auto-fit | auto-fit | Large-context Qwen3.6 work |
+| `deepseek` | 8192 | q4_0 | 256 | 64 | DeepSeek reasoning fallback |
 | `qwen14` | 8192 | q8_0 | 512 | 128 | General fallback |
 
-`coder` is default because it had the best measured throughput and successful reply behavior. `coder-big` is kept for larger context because it is slower and uses a smaller KV cache to fit. `deepseek` is the reasoning fallback. `qwen14` is retained as a third fallback because the benchmark response check did not pass.
+`coder`, `fast`, and `big` are compatibility aliases for Qwen3.6 profiles. `deepseek` points to DeepSeek-R1-Distill-Qwen-32B Q2_K and should be benchmarked when the active Qwen service can be interrupted.

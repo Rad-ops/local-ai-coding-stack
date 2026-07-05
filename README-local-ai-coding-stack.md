@@ -42,17 +42,15 @@ Codex is used separately for structured repo edits and project maintenance.
 
 `DeepSeek-R1-Distill-Qwen-32B` is the reasoning/debugging fallback. It uses the Q2_K GGUF on this 12 GB VRAM setup.
 
-`Qwen3-14B` is retained as a general fallback. The final benchmark showed it loaded and generated tokens, but the reply check did not pass, so it is the third option.
+`Qwen3-14B` is retained as a general fallback.
 
-## Benchmark Table
+## Current Benchmark Notes
 
-| Profile | Context | Cache | Batch | uBatch | API OK | Reply OK | Gen t/s | llama VRAM |
-| --- | ---: | --- | ---: | ---: | --- | --- | ---: | --- |
-| `coder-fast` | 4096 | q8_0 | 512 | 128 | yes | yes | 40.50 | 9698 MiB |
-| `coder` | 8192 | q8_0 | 512 | 128 | yes | yes | 41.87 | 9578 MiB |
-| `coder-big` | 16384 | q4_0 | 256 | 64 | yes | yes | 33.86 | 9704 MiB |
-| `deepseek` | 8192 | q8_0 | 512 | 128 | yes | yes | 18.81 | 9594 MiB |
-| `qwen14` | 8192 | q8_0 | 512 | 128 | yes | no | 20.02 | 9530 MiB |
+| Profile | Model | Context | Gen t/s | Prompt t/s | Notes |
+| --- | --- | ---: | ---: | ---: | --- |
+| `qwen36` | Qwen3.6-35B-A3B-MTP | 131072 | 70.10-92.69 | 138.60-178.35 | Measured across code, explanation, QA, and JSON classification probes |
+| `deepseek` | DeepSeek-R1-Distill-Qwen-32B | 8192 | not run | not run | Installed after the benchmark; not started to avoid interrupting active Qwen work |
+| `qwen14` | Qwen3-14B | 8192 | historical fallback | historical fallback | Retained as third fallback |
 
 ## Local vs Cloud Routing
 
@@ -93,7 +91,7 @@ Apply cleanup:
 cleanup-local-ai --apply
 ```
 
-The cleanup script must never delete GGUF files, `~/ai/models`, `~/ai/llama.cpp`, or `~/ai/local-ai-stack`. It may remove stale reports, temporary incomplete downloads, and an old broken `~/ai/aider-venv`.
+The cleanup script must not delete active model directories, `~/ai/llama.cpp`, or `~/ai/local-ai-stack`. It may remove stale reports, temporary incomplete downloads, and an old broken `~/ai/aider-venv`. Manual model replacement can remove obsolete model directories after profiles and docs are updated.
 
 ## Future Improvement Ideas
 

@@ -106,4 +106,4 @@ cleanup-local-ai --dry-run
 cleanup-local-ai --apply
 ```
 
-`cleanup-local-ai --apply` stops and disables `local-llm`, removes only allowed stale files, and must not delete GGUF models.
+`cleanup-local-ai --apply` stops and disables `local-llm`, removes only allowed stale files, and must not delete active model directories.

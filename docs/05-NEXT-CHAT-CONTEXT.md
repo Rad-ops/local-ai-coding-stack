@@ -1,6 +1,6 @@
 # Next Chat Context
 
-This project is a private local AI coding stack for CachyOS Linux with fish shell, an RTX 4070 Super-class NVIDIA GPU with 12 GB VRAM, about 32 GB RAM, llama.cpp built with CUDA, Aider for local coding, and OpenCode planned/configured for OpenRouter.
+This project is a private local AI coding stack for CachyOS Linux with fish shell, an RTX 4070 Super-class NVIDIA GPU with 12 GB VRAM, about 32 GB RAM, llama.cpp built with CUDA, Aider for local coding, and OpenCode configured for OpenRouter.
 
 Local API:
 
