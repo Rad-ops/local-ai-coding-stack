@@ -17,6 +17,15 @@ dev-ai big test.py
 
 This uses `coder-big` with 16384 context, q4_0 KV cache, batch 256, and ubatch 64.
 
+## Qwen3.6
+
+```fish
+dev-ai qwen36 test.py
+dev-ai qwen36-big test.py
+```
+
+Use `qwen36` for the upgraded Qwen3.6-35B-A3B local model. Use `qwen36-big` for larger context after confirming memory headroom.
+
 ## Fallbacks
 
 ```fish

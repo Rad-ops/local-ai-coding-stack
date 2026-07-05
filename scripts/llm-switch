@@ -8,6 +8,9 @@ function usage
     echo "  llm-switch coder"
     echo "  llm-switch coder-fast"
     echo "  llm-switch coder-big"
+    echo "  llm-switch qwen36"
+    echo "  llm-switch qwen36-fast"
+    echo "  llm-switch qwen36-big"
     echo "  llm-switch deepseek"
     echo "  llm-switch qwen14"
     echo "  llm-switch <profile> <ctx> <cache> <batch> <ubatch>"
@@ -33,6 +36,19 @@ if test -z "$profile"
 end
 
 set THREADS 16
+set N_PREDICT -1
+set FIT_TARGET 1536
+set PARALLEL 4
+set CTX_CHECKPOINTS 0
+set SPEC_TYPE none
+set SPEC_DRAFT_N_MAX 0
+set CACHE_DRAFT q8_0
+set TEMP 0.7
+set TOP_P 0.8
+set TOP_K 20
+set MIN_P 0.0
+set PRESENCE_PENALTY 1.5
+set REPEAT_PENALTY 1.0
 
 switch "$profile"
     case coder
@@ -52,6 +68,58 @@ switch "$profile"
     case coder-big big
         set MODEL_NAME "Qwen3-Coder-30B-A3B"
         set MODEL_PATH "$HOME/ai/models/qwen3-coder-30b-a3b/Qwen3-Coder-30B-A3B-Instruct-UD-Q4_K_XL.gguf"
+        set CTX_SIZE 16384
+        set CACHE q4_0
+        set BATCH_SIZE 256
+        set UBATCH_SIZE 64
+    case qwen36
+        set MODEL_NAME "Qwen3.6-35B-A3B"
+        set MODEL_PATH "$HOME/ai/models/qwen3.6-35b-a3b-mtp/Qwen3.6-35B-A3B-MTP-UD-Q2_K_XL.gguf"
+        set CTX_SIZE 131072
+        set N_PREDICT 32768
+        set CACHE q8_0
+        set BATCH_SIZE 512
+        set UBATCH_SIZE 128
+        set PARALLEL 1
+        set CTX_CHECKPOINTS 64
+        set SPEC_TYPE draft-mtp
+        set SPEC_DRAFT_N_MAX 2
+        set TEMP 0.6
+        set TOP_P 0.95
+        set PRESENCE_PENALTY 0.0
+    case qwen36-fast
+        set MODEL_NAME "Qwen3.6-35B-A3B"
+        set MODEL_PATH "$HOME/ai/models/qwen3.6-35b-a3b-mtp/Qwen3.6-35B-A3B-MTP-UD-Q2_K_XL.gguf"
+        set CTX_SIZE 32768
+        set N_PREDICT 8192
+        set CACHE q8_0
+        set BATCH_SIZE 512
+        set UBATCH_SIZE 128
+        set PARALLEL 1
+        set CTX_CHECKPOINTS 16
+        set SPEC_TYPE draft-mtp
+        set SPEC_DRAFT_N_MAX 2
+        set TEMP 0.6
+        set TOP_P 0.95
+        set PRESENCE_PENALTY 0.0
+    case qwen36-big
+        set MODEL_NAME "Qwen3.6-35B-A3B"
+        set MODEL_PATH "$HOME/ai/models/qwen3.6-35b-a3b-mtp/Qwen3.6-35B-A3B-MTP-UD-Q2_K_XL.gguf"
+        set CTX_SIZE 131072
+        set N_PREDICT 32768
+        set CACHE q8_0
+        set BATCH_SIZE 512
+        set UBATCH_SIZE 128
+        set PARALLEL 1
+        set CTX_CHECKPOINTS 64
+        set SPEC_TYPE draft-mtp
+        set SPEC_DRAFT_N_MAX 3
+        set TEMP 0.6
+        set TOP_P 0.95
+        set PRESENCE_PENALTY 0.0
+    case qwen36-compat
+        set MODEL_NAME "Qwen3.6-35B-A3B"
+        set MODEL_PATH "$HOME/ai/models/qwen3.6-35b-a3b/Qwen3.6-35B-A3B-UD-Q2_K_XL.gguf"
         set CTX_SIZE 16384
         set CACHE q4_0
         set BATCH_SIZE 256
@@ -91,8 +159,8 @@ end
 require_file "$MODEL_PATH"
 mkdir -p (dirname "$CONFIG")
 
-printf "MODEL_PATH=%s\nCTX_SIZE=%s\nTHREADS=%s\nBATCH_SIZE=%s\nUBATCH_SIZE=%s\nCACHE_TYPE_K=%s\nCACHE_TYPE_V=%s\n" \
-    "$MODEL_PATH" "$CTX_SIZE" "$THREADS" "$BATCH_SIZE" "$UBATCH_SIZE" "$CACHE" "$CACHE" > "$CONFIG"
+printf "MODEL_PATH=%s\nCTX_SIZE=%s\nN_PREDICT=%s\nTHREADS=%s\nBATCH_SIZE=%s\nUBATCH_SIZE=%s\nCACHE_TYPE_K=%s\nCACHE_TYPE_V=%s\nCACHE_TYPE_K_DRAFT=%s\nCACHE_TYPE_V_DRAFT=%s\nFIT_TARGET=%s\nPARALLEL=%s\nCTX_CHECKPOINTS=%s\nSPEC_TYPE=%s\nSPEC_DRAFT_N_MAX=%s\nTEMP=%s\nTOP_P=%s\nTOP_K=%s\nMIN_P=%s\nPRESENCE_PENALTY=%s\nREPEAT_PENALTY=%s\n" \
+    "$MODEL_PATH" "$CTX_SIZE" "$N_PREDICT" "$THREADS" "$BATCH_SIZE" "$UBATCH_SIZE" "$CACHE" "$CACHE" "$CACHE_DRAFT" "$CACHE_DRAFT" "$FIT_TARGET" "$PARALLEL" "$CTX_CHECKPOINTS" "$SPEC_TYPE" "$SPEC_DRAFT_N_MAX" "$TEMP" "$TOP_P" "$TOP_K" "$MIN_P" "$PRESENCE_PENALTY" "$REPEAT_PENALTY" > "$CONFIG"
 
 echo "Switching local LLM:"
 echo "  Profile: $profile"
@@ -102,6 +170,7 @@ echo "  Context: $CTX_SIZE"
 echo "  Cache:   $CACHE"
 echo "  Batch:   $BATCH_SIZE"
 echo "  uBatch:  $UBATCH_SIZE"
+echo "  Spec:    $SPEC_TYPE"
 
 systemctl --user restart local-llm
 if test $status -ne 0

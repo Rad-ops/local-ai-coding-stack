@@ -5,6 +5,9 @@ function usage
     echo "  dev-ai coder [files...]"
     echo "  dev-ai fast [files...]"
     echo "  dev-ai big [files...]"
+    echo "  dev-ai qwen36 [files...]"
+    echo "  dev-ai qwen36-fast [files...]"
+    echo "  dev-ai qwen36-big [files...]"
     echo "  dev-ai deepseek [files...]"
     echo "  dev-ai qwen14 [files...]"
     echo "  dev-ai status"
@@ -33,6 +36,12 @@ switch "$mode"
         llm-switch coder-fast; and aider-local $files
     case big coder-big
         llm-switch coder-big; and aider-local $files
+    case qwen36
+        llm-switch qwen36; and aider-local $files
+    case qwen36-fast
+        llm-switch qwen36-fast; and aider-local $files
+    case qwen36-big
+        llm-switch qwen36-big; and aider-local $files
     case deepseek
         llm-switch deepseek; and aider-local $files
     case qwen14

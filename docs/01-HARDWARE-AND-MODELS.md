@@ -24,6 +24,12 @@ Primary coding model:
 ~/ai/models/qwen3-coder-30b-a3b/Qwen3-Coder-30B-A3B-Instruct-UD-Q4_K_XL.gguf
 ```
 
+Upgraded agent/coding model:
+
+```text
+~/ai/models/qwen3.6-35b-a3b-mtp/Qwen3.6-35B-A3B-MTP-UD-Q2_K_XL.gguf
+```
+
 Reasoning fallback:
 
 ```text

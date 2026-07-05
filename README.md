@@ -17,10 +17,11 @@ Private documentation and helper scripts for a local AI coding workflow on Cachy
 ## Local Models
 
 - Primary coding model: `~/ai/models/qwen3-coder-30b-a3b/Qwen3-Coder-30B-A3B-Instruct-UD-Q4_K_XL.gguf`
+- Upgraded agent/coding model: `~/ai/models/qwen3.6-35b-a3b-mtp/Qwen3.6-35B-A3B-MTP-UD-Q2_K_XL.gguf`
 - Reasoning fallback: `~/ai/models/deepseek-r1-qwen-14b/DeepSeek-R1-Distill-Qwen-14B-Q5_K_M.gguf`
 - General fallback: `~/ai/models/qwen3-14b/Qwen3-14B-Q5_K_M.gguf`
 
-Qwen3-Coder is the default because it gave the best local coding balance in testing: strong coding behavior, successful local API replies, and about 40 tokens/sec while fitting on the 12 GB GPU with llama.cpp auto-fit.
+Qwen3-Coder remains available as a conservative coding fallback. The upgraded `qwen36` profile uses the Qwen3.6-35B-A3B MTP quant with speculative draft-MTP settings, 128K context, q8_0 KV cache, and llama.cpp fit targeting for the 12 GB GPU.
 
 ## Optimized Profiles
 
@@ -29,6 +30,9 @@ Qwen3-Coder is the default because it gave the best local coding balance in test
 | `coder` | Qwen3-Coder-30B-A3B | 8192 | q8_0 | 512 | 128 | Default daily coding |
 | `coder-fast` | Qwen3-Coder-30B-A3B | 4096 | q8_0 | 512 | 128 | Quick smaller-context work |
 | `coder-big` | Qwen3-Coder-30B-A3B | 16384 | q4_0 | 256 | 64 | Large context and multi-file work |
+| `qwen36` | Qwen3.6-35B-A3B-MTP | 131072 | q8_0 | auto-fit | auto-fit | Upgraded agent/coding model |
+| `qwen36-fast` | Qwen3.6-35B-A3B-MTP | 65536 | q8_0 | auto-fit | auto-fit | Quick Qwen3.6 work |
+| `qwen36-big` | Qwen3.6-35B-A3B-MTP | 131072 | q8_0 | auto-fit | auto-fit | Larger Qwen3.6 context |
 | `deepseek` | DeepSeek-R1-Distill-Qwen-14B | 8192 | q8_0 | 512 | 128 | Reasoning/debugging fallback |
 | `qwen14` | Qwen3-14B | 8192 | q8_0 | 512 | 128 | General fallback |
 
@@ -73,6 +77,8 @@ Inside OpenCode:
 cd /path/to/project
 dev-ai coder file.py
 dev-ai big file.py
+dev-ai qwen36 file.py
+dev-ai qwen36-big file.py
 dev-ai deepseek file.py
 dev-ai qwen14 file.py
 aider-openrouter file.py
