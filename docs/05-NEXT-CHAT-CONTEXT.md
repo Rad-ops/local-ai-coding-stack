@@ -17,8 +17,8 @@ Project folder:
 Models:
 
 ```text
-~/ai/models/qwen3-coder-30b-a3b/Qwen3-Coder-30B-A3B-Instruct-UD-Q4_K_XL.gguf
-~/ai/models/deepseek-r1-qwen-14b/DeepSeek-R1-Distill-Qwen-14B-Q5_K_M.gguf
+~/ai/models/qwen3.6-35b-a3b-mtp/Qwen3.6-35B-A3B-MTP-UD-Q2_K_XL.gguf
+~/ai/models/deepseek-r1-qwen-32b/DeepSeek-R1-Distill-Qwen-32B-Q2_K.gguf
 ~/ai/models/qwen3-14b/Qwen3-14B-Q5_K_M.gguf
 ```
 
@@ -32,9 +32,10 @@ llama.cpp:
 
 Best profiles:
 
-- `coder`: Qwen3-Coder, ctx 8192, q8_0, batch 512, ubatch 128
-- `coder-big`: Qwen3-Coder, ctx 16384, q4_0, batch 256, ubatch 64
-- `deepseek`: DeepSeek-R1-Distill-Qwen-14B, ctx 8192, q8_0, batch 512, ubatch 128
+- `coder`, `qwen36`: Qwen3.6-35B-A3B-MTP, ctx 131072, q8_0, fit-target 1536, draft-MTP
+- `fast`, `qwen36-fast`: Qwen3.6-35B-A3B-MTP, ctx 32768, q8_0, fit-target 1536, draft-MTP
+- `big`, `qwen36-big`: Qwen3.6-35B-A3B-MTP, ctx 131072, q8_0, fit-target 1536, draft-MTP
+- `deepseek`: DeepSeek-R1-Distill-Qwen-32B, ctx 8192, q4_0, batch 256, ubatch 64
 - `qwen14`: Qwen3-14B, ctx 8192, q8_0, batch 512, ubatch 128
 
 Main commands:
@@ -53,7 +54,7 @@ check-local-ai-setup
 
 Safety:
 
-- Do not delete `.gguf` files.
+- Do not delete active `.gguf` files unless intentionally cleaning obsolete model directories.
 - Do not delete `~/ai/models`, `~/ai/llama.cpp`, or `~/ai/local-ai-stack`.
 - Do not hardcode keys.
 - Do not commit `.env`.

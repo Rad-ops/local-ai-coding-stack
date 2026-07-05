@@ -2,9 +2,9 @@
 
 function usage
     echo "Usage:"
-    echo "  dev-ai coder [files...]"
-    echo "  dev-ai fast [files...]"
-    echo "  dev-ai big [files...]"
+    echo "  dev-ai coder [files...]        # alias for qwen36"
+    echo "  dev-ai fast [files...]         # alias for qwen36-fast"
+    echo "  dev-ai big [files...]          # alias for qwen36-big"
     echo "  dev-ai qwen36 [files...]"
     echo "  dev-ai qwen36-fast [files...]"
     echo "  dev-ai qwen36-big [files...]"

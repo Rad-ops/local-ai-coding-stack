@@ -38,9 +38,9 @@ Codex is used separately for structured repo edits and project maintenance.
 
 ## Model Descriptions
 
-`Qwen3-Coder-30B-A3B` is the default local coding model. It is a MoE coding model that fits this 12 GB VRAM setup with llama.cpp auto-fit and performs best in the final benchmark.
+`Qwen3.6-35B-A3B-MTP` is the default local coding model. The legacy `coder`, `fast`, and `big` aliases route to the Qwen3.6 profiles.
 
-`DeepSeek-R1-Distill-Qwen-14B` is the reasoning/debugging fallback. It is slower but useful when the task benefits from a reasoning-style model.
+`DeepSeek-R1-Distill-Qwen-32B` is the reasoning/debugging fallback. It uses the Q2_K GGUF on this 12 GB VRAM setup.
 
 `Qwen3-14B` is retained as a general fallback. The final benchmark showed it loaded and generated tokens, but the reply check did not pass, so it is the third option.
 

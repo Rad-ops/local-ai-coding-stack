@@ -19,13 +19,13 @@ The repo documents helper scripts, local GGUF model paths, benchmark results, op
 Primary coding model:
 
 ```text
-~/ai/models/qwen3-coder-30b-a3b/Qwen3-Coder-30B-A3B-Instruct-UD-Q4_K_XL.gguf
+~/ai/models/qwen3.6-35b-a3b-mtp/Qwen3.6-35B-A3B-MTP-UD-Q2_K_XL.gguf
 ```
 
 Reasoning fallback:
 
 ```text
-~/ai/models/deepseek-r1-qwen-14b/DeepSeek-R1-Distill-Qwen-14B-Q5_K_M.gguf
+~/ai/models/deepseek-r1-qwen-32b/DeepSeek-R1-Distill-Qwen-32B-Q2_K.gguf
 ```
 
 General fallback:
@@ -34,7 +34,7 @@ General fallback:
 ~/ai/models/qwen3-14b/Qwen3-14B-Q5_K_M.gguf
 ```
 
-Do not delete `.gguf` files. Do not delete `~/ai/models`, `~/ai/llama.cpp`, or `~/ai/local-ai-stack`.
+Do not delete active `.gguf` files unless intentionally cleaning obsolete model directories. Do not delete `~/ai/models`, `~/ai/llama.cpp`, or `~/ai/local-ai-stack`.
 
 ## llama.cpp Paths
 
@@ -54,11 +54,13 @@ It should stay disabled at login.
 
 ## Best Profiles
 
-`coder`: Qwen3-Coder-30B-A3B, ctx 8192, q8_0 KV, batch 512, ubatch 128. Default daily model.
+`coder` / `qwen36`: Qwen3.6-35B-A3B-MTP, ctx 131072, q8_0 KV, fit-target 1536, draft-MTP. Default daily model.
 
-`coder-big`: Qwen3-Coder-30B-A3B, ctx 16384, q4_0 KV, batch 256, ubatch 64. Large context and multi-file work.
+`fast` / `qwen36-fast`: Qwen3.6-35B-A3B-MTP, ctx 32768, q8_0 KV, fit-target 1536, draft-MTP. Quick profile.
 
-`deepseek`: DeepSeek-R1-Distill-Qwen-14B, ctx 8192, q8_0 KV, batch 512, ubatch 128. Reasoning fallback.
+`big` / `qwen36-big`: Qwen3.6-35B-A3B-MTP, ctx 131072, q8_0 KV, fit-target 1536, draft-MTP. Large-context profile.
+
+`deepseek`: DeepSeek-R1-Distill-Qwen-32B, ctx 8192, q4_0 KV, batch 256, ubatch 64. Reasoning fallback.
 
 `qwen14`: Qwen3-14B, ctx 8192, q8_0 KV, batch 512, ubatch 128. General fallback.
 

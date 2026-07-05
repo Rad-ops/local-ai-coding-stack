@@ -7,7 +7,7 @@ cd ~/projects/llm-test-project
 dev-ai coder test.py
 ```
 
-Use `dev-ai coder` for daily coding. It switches the local service to the optimized Qwen3-Coder profile, waits for `http://127.0.0.1:8080/v1/models`, and launches Aider.
+Use `dev-ai coder` for daily coding. It is a compatibility alias for the optimized Qwen3.6 profile, waits for `http://127.0.0.1:8080/v1/models`, and launches Aider.
 
 ## Larger Context
 
@@ -15,7 +15,7 @@ Use `dev-ai coder` for daily coding. It switches the local service to the optimi
 dev-ai big test.py
 ```
 
-This uses `coder-big` with 16384 context, q4_0 KV cache, batch 256, and ubatch 64.
+This uses the Qwen3.6 large-context profile through the legacy `big` alias.
 
 ## Qwen3.6
 
@@ -24,7 +24,7 @@ dev-ai qwen36 test.py
 dev-ai qwen36-big test.py
 ```
 
-Use `qwen36` for the upgraded Qwen3.6-35B-A3B local model. Use `qwen36-big` for larger context after confirming memory headroom.
+Use `qwen36` for the upgraded Qwen3.6-35B-A3B-MTP local model. Use `qwen36-fast` for quicker smaller-context work.
 
 ## Fallbacks
 
@@ -32,7 +32,7 @@ Use `qwen36` for the upgraded Qwen3.6-35B-A3B local model. Use `qwen36-big` for 
 dev-ai deepseek test.py
 ```
 
-Use for reasoning/debugging fallback.
+Use for DeepSeek-R1-Distill-Qwen-32B reasoning/debugging fallback.
 
 ```fish
 dev-ai qwen14 test.py
