@@ -10,7 +10,7 @@ dev-ai coder test.py
 ```
 
 ```fish
-dev-ai big test.py
+dev-ai qwen36-fast test.py
 ```
 
 ```fish
@@ -18,7 +18,25 @@ dev-ai deepseek test.py
 ```
 
 ```fish
-dev-ai qwen14 test.py
+dev-ai planner test.py
+```
+
+```fish
+dev-ai planner-safe test.py
+```
+
+Use `planner` only for architecture, planning, risk review, and test strategy. It starts the Gemma 4 26B MoE profile when that GGUF is installed. Use `planner-safe` if the 26B MoE profile does not fit or is unstable.
+
+Direct start without Aider:
+
+```fish
+llm-switch planner
+```
+
+Check server state:
+
+```fish
+llm-status
 ```
 
 ```fish
@@ -27,6 +45,12 @@ dev-ai status
 
 ```fish
 dev-ai stop
+```
+
+Stop the local model after planning or coding so VRAM is free:
+
+```fish
+llm-stop
 ```
 
 ```fish

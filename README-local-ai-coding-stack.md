@@ -1,8 +1,14 @@
-# README Local AI Coding Stack
+# ⚡ README Local AI Coding Stack
+
+<p align="center">
+  <img src="assets/local-ai-stack-hero.png" alt="Local AI coding stack workstation with model-routing lanes" width="100%">
+</p>
+
+**Version:** `0.2.0` (`20260705`)
 
 This repo is the organized reference project for a private local AI coding stack on CachyOS Linux. It records the installed local models, optimized llama.cpp settings, helper scripts, Aider workflow, OpenRouter cloud fallback, and OpenCode setup notes.
 
-## Architecture
+## 🧭 Architecture
 
 The local path is:
 
@@ -18,7 +24,7 @@ OpenRouter API key in fish env -> Aider/OpenCode -> OpenRouter model
 
 Codex is used separately for structured repo edits and project maintenance.
 
-## Folder Layout
+## 📁 Folder Layout
 
 ```text
 ~/ai/local-ai-stack/
@@ -36,23 +42,24 @@ Codex is used separately for structured repo edits and project maintenance.
 
 `scripts/` contains restorable copies of the helper commands. `docs/` contains detailed operational notes. `reports/` contains only an example report; generated local reports stay outside git.
 
-## Model Descriptions
+## 🧩 Model Descriptions
 
-`Qwen3.6-35B-A3B-MTP` is the default local coding model. The legacy `coder`, `fast`, and `big` aliases route to the Qwen3.6 profiles.
+`Qwen3.6-35B-A3B-MTP` is the default local coding model. The Qwen profile set is limited to two active profiles: `coder`/`qwen36` for full-context daily work and `fast`/`qwen36-fast` for quicker smaller-context work.
 
 `DeepSeek-R1-Distill-Qwen-32B` is the reasoning/debugging fallback. It uses the Q2_K GGUF on this 12 GB VRAM setup.
 
-`Qwen3-14B` is retained as a general fallback.
+`Gemma 4 26B MoE Instruct` is the installed third model for planning, architecture, and multi-step reasoning. It should review designs and risks before Qwen3.6 or DeepSeek implement. It still needs a local fit benchmark before becoming the daily planner default. If the 26B MoE profile is too tight, use `planner-safe` for Gemma 4 12B.
 
-## Current Benchmark Notes
+## 📊 Current Benchmark Notes
 
 | Profile | Model | Context | Gen t/s | Prompt t/s | Notes |
 | --- | --- | ---: | ---: | ---: | --- |
 | `qwen36` | Qwen3.6-35B-A3B-MTP | 131072 | 70.10-92.69 | 138.60-178.35 | Measured across code, explanation, QA, and JSON classification probes |
 | `deepseek` | DeepSeek-R1-Distill-Qwen-32B | 8192 | not run | not run | Installed after the benchmark; not started to avoid interrupting active Qwen work |
-| `qwen14` | Qwen3-14B | 8192 | historical fallback | historical fallback | Retained as third fallback |
+| `planner`, `gemma4-26b` | Gemma 4 26B MoE Instruct | 8192 | installed | benchmark pending | Preferred planner/architect target |
+| `planner-safe`, `gemma4-12b` | Gemma 4 12B Instruct | 8192 | installed | benchmark pending | Safer planner fallback |
 
-## Local vs Cloud Routing
+## 🔀 Local vs Cloud Routing
 
 Use local routing for privacy, no API cost, and low-latency coding:
 
@@ -69,7 +76,7 @@ opencode-openrouter
 
 Cloud routing requires `OPENROUTER_API_KEY` to be set outside the repo.
 
-## Aider vs OpenCode vs Codex
+## 🧰 Aider vs OpenCode vs Codex
 
 Aider is the primary local coding agent. It edits files directly and works well with the local OpenAI-compatible llama.cpp endpoint.
 
@@ -99,4 +106,4 @@ The cleanup script must not delete active model directories, `~/ai/llama.cpp`, o
 - Add a better benchmark suite for prompt processing, edit quality, and long-context behavior.
 - Test OpenCode once installed and connected.
 - Add a small restore script that copies `scripts/` into `~/bin` with confirmation.
-- Add more profiles if new GGUF models are installed.
+- Download and benchmark the Gemma 4 26B MoE planner GGUF, then fall back to Gemma 4 12B if needed.

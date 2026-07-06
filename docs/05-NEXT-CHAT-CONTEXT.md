@@ -19,7 +19,8 @@ Models:
 ```text
 ~/ai/models/qwen3.6-35b-a3b-mtp/Qwen3.6-35B-A3B-MTP-UD-Q2_K_XL.gguf
 ~/ai/models/deepseek-r1-qwen-32b/DeepSeek-R1-Distill-Qwen-32B-Q2_K.gguf
-~/ai/models/qwen3-14b/Qwen3-14B-Q5_K_M.gguf
+~/ai/models/gemma4-26b-moe/gemma-4-26B-A4B-it-Q4_K_M.gguf
+~/ai/models/gemma4-12b/gemma-4-12B-it-Q4_K_M.gguf
 ```
 
 llama.cpp:
@@ -34,17 +35,17 @@ Best profiles:
 
 - `coder`, `qwen36`: Qwen3.6-35B-A3B-MTP, ctx 131072, q8_0, fit-target 1536, draft-MTP
 - `fast`, `qwen36-fast`: Qwen3.6-35B-A3B-MTP, ctx 32768, q8_0, fit-target 1536, draft-MTP
-- `big`, `qwen36-big`: Qwen3.6-35B-A3B-MTP, ctx 131072, q8_0, fit-target 1536, draft-MTP
 - `deepseek`: DeepSeek-R1-Distill-Qwen-32B, ctx 8192, q4_0, batch 256, ubatch 64
-- `qwen14`: Qwen3-14B, ctx 8192, q8_0, batch 512, ubatch 128
+- `planner`, `gemma4-26b`: Gemma 4 26B MoE Instruct, ctx 8192, q4_0, batch 256, ubatch 64, installed, benchmark pending
+- `planner-safe`, `gemma4-12b`: Gemma 4 12B Instruct, ctx 8192, q4_0, batch 256, ubatch 64, installed, benchmark pending
 
 Main commands:
 
 ```fish
 dev-ai coder file.py
-dev-ai big file.py
 dev-ai deepseek file.py
-dev-ai qwen14 file.py
+dev-ai planner file.py
+dev-ai planner-safe file.py
 aider-openrouter file.py
 opencode-openrouter
 dev-ai stop

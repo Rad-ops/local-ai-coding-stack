@@ -18,8 +18,8 @@ timestamp,profile,model,test,ctx,cache,batch,ubatch,api_ok,gen_tps,prompt_tps,dr
 | --- | ---: | --- | ---: | ---: | --- |
 | `coder`, `qwen36` | 131072 | q8_0 | auto-fit | auto-fit | Default daily coding |
 | `fast`, `qwen36-fast` | 32768 | q8_0 | auto-fit | auto-fit | Quick smaller-context work |
-| `big`, `qwen36-big` | 131072 | q8_0 | auto-fit | auto-fit | Large-context Qwen3.6 work |
 | `deepseek` | 8192 | q4_0 | 256 | 64 | DeepSeek reasoning fallback |
-| `qwen14` | 8192 | q8_0 | 512 | 128 | General fallback |
+| `planner`, `gemma4-26b` | 8192 | q4_0 | 256 | 64 | Installed Gemma 4 26B MoE architecture/planning model; benchmark pending |
+| `planner-safe`, `gemma4-12b` | 8192 | q4_0 | 256 | 64 | Installed Gemma 4 12B fallback; benchmark pending |
 
-`coder`, `fast`, and `big` are compatibility aliases for Qwen3.6 profiles. `deepseek` points to DeepSeek-R1-Distill-Qwen-32B Q2_K and should be benchmarked when the active Qwen service can be interrupted.
+`coder` and `fast` are compatibility aliases for Qwen3.6 profiles. `deepseek` points to DeepSeek-R1-Distill-Qwen-32B Q2_K and should be benchmarked when the active Qwen service can be interrupted. `planner` is the next download/benchmark target.

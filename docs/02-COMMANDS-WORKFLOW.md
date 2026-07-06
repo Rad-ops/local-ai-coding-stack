@@ -9,19 +9,11 @@ dev-ai coder test.py
 
 Use `dev-ai coder` for daily coding. It is a compatibility alias for the optimized Qwen3.6 profile, waits for `http://127.0.0.1:8080/v1/models`, and launches Aider.
 
-## Larger Context
-
-```fish
-dev-ai big test.py
-```
-
-This uses the Qwen3.6 large-context profile through the legacy `big` alias.
-
 ## Qwen3.6
 
 ```fish
 dev-ai qwen36 test.py
-dev-ai qwen36-big test.py
+dev-ai qwen36-fast test.py
 ```
 
 Use `qwen36` for the upgraded Qwen3.6-35B-A3B-MTP local model. Use `qwen36-fast` for quicker smaller-context work.
@@ -35,10 +27,23 @@ dev-ai deepseek test.py
 Use for DeepSeek-R1-Distill-Qwen-32B reasoning/debugging fallback.
 
 ```fish
-dev-ai qwen14 test.py
+dev-ai planner test.py
+dev-ai planner-safe test.py
 ```
 
-Use as a general fallback.
+Use `planner` for the installed Gemma 4 26B MoE architecture/planning model. Use `planner-safe` for the Gemma 4 12B fallback if the 26B MoE quant does not fit.
+
+Start planner mode without launching Aider:
+
+```fish
+llm-switch planner
+```
+
+Stop planner mode when finished:
+
+```fish
+llm-stop
+```
 
 ## Service Commands
 
