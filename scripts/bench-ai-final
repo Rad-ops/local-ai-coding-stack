@@ -1,0 +1,70 @@
+#!/usr/bin/env fish
+
+set OUT "$HOME/local-ai-final-benchmark.csv"
+
+echo "timestamp,profile,model,ctx,cache,batch,ubatch,api_ok,reply_ok,gen_tps,llama_vram_mib,total_vram_mib,ram_used" > $OUT
+
+function llama_vram
+    nvidia-smi | grep llama-server | awk '{print $(NF-1)}' | head -n 1
+end
+
+function total_vram
+    nvidia-smi --query-gpu=memory.used --format=csv,noheader,nounits | head -n 1
+end
+
+function ram_used
+    free -h | awk '/Mem:/ {print $3 "/" $2}'
+end
+
+function latest_tps
+    journalctl --user -u local-llm --since "2 minutes ago" --no-pager | grep "tokens per second" | tail -n 1 | sed -E 's/.* ([0-9]+\.[0-9]+) tokens per second.*/\1/'
+end
+
+function bench
+    set profile $argv[1]
+    set model $argv[2]
+    set ctx $argv[3]
+    set cache $argv[4]
+    set batch $argv[5]
+    set ubatch $argv[6]
+
+    echo ""
+    echo "===== $profile: $model ctx=$ctx cache=$cache batch=$batch ubatch=$ubatch ====="
+
+    llm-switch $model $ctx $cache $batch $ubatch
+
+    sleep 3
+
+    set response (curl -s http://127.0.0.1:8080/v1/chat/completions \
+        -H "Content-Type: application/json" \
+        -d "{ \"model\": \"local\", \"messages\": [ { \"role\": \"user\", \"content\": \"Create a Python function called get_first_email(users) that returns the email of the first user dictionary. Include type hints, error handling, and a short explanation.\" } ], \"temperature\": 0.2, \"max_tokens\": 700 }")
+
+    set api_ok no
+    set reply_ok no
+
+    echo $response | jq -e '.choices[0].message.content' >/dev/null 2>&1; and set api_ok yes
+    echo $response | jq -r '.choices[0].message.content' | grep -qi "get_first_email"; and set reply_ok yes
+
+    set tps (latest_tps)
+    test -z "$tps"; and set tps unknown
+
+    set lvram (llama_vram)
+    test -z "$lvram"; and set lvram unknown
+
+    set tvram (total_vram)
+    set ram (ram_used)
+
+    echo (date --iso-8601=seconds),$profile,$model,$ctx,$cache,$batch,$ubatch,$api_ok,$reply_ok,$tps,$lvram,$tvram,$ram >> $OUT
+
+    echo "api_ok=$api_ok reply_ok=$reply_ok gen_tps=$tps llama_vram=$lvram total_vram=$tvram ram=$ram"
+end
+
+bench qwen36-fast qwen36-fast 32768 q8_0 512 128
+bench qwen36-default qwen36 131072 q8_0 512 128
+bench deepseek-default deepseek 8192 q8_0 512 128
+bench planner-default planner 8192 q4_0 256 64
+bench planner-safe planner-safe 8192 q4_0 256 64
+
+echo ""
+echo "Done. Results:"
+cat $OUT

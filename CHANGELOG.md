@@ -1,5 +1,34 @@
 # Changelog
 
+## 0.3.0 - 2026-07-06
+
+### 📚 Documentation Rewrite
+
+- Collapsed the three top-level entry files (`README-local-ai-coding-stack.md`, `GUIDE-HOW-TO-USE.md`, `NEXT-CHAT-CONTEXT.md`) into one `README.md` and a numbered `docs/` set.
+- Promoted the three near-identical handoff files (root `NEXT-CHAT-CONTEXT.md`, `docs/05-NEXT-CHAT-CONTEXT.md`, `docs/12-CONTINUATION-HANDOFF.md`) into a single `docs/10-CONTINUATION-HANDOFF.md`.
+- Deleted `docs/07-PRIVATE-REPO-NOTES.md` (one-time event record, not a reference).
+- Deleted the 28-line `docs/03-BENCHMARKS-AND-SETTINGS.md` stub; the real benchmark doc is now `docs/09-BENCHMARKS-AND-WORKLOADS.md`.
+- Added `docs/00-OVERVIEW.md`, `docs/01-INSTALL.md`, `docs/02-MODELS-AND-PROFILES.md`, `docs/03-COMMANDS.md`, and the canonical `docs/10-CONTINUATION-HANDOFF.md`.
+- Rewrote `docs/04-TROUBLESHOOTING.md`, `docs/05-OPENROUTER-AND-OPENCODE.md`, `docs/06-PLANNER-MODEL-SHORTLIST.md`, `docs/08-CLEANUP-LOG-2026-07-05.md` for clarity and to drop overlap with the new top-level files.
+- Added an explicit one-line note about the `local-ai-stack` (local folder) vs `local-ai-coding-stack` (GitHub repo) naming.
+- Added MIT `LICENSE` (was missing despite the repo being public).
+
+### 🛠️ Scripts
+
+- Promoted `bench-ai-final` and `bench-local-models` from `~/bin/` into `scripts/`, so the repo is the source of truth.
+- Added `scripts/install.sh` — one-shot installer that copies every script in `scripts/` into `~/bin/` and chmods it. Replaces the long `cp ... chmod +x ...` block in the old README.
+
+### 🗑️ Removed
+
+- `README-local-ai-coding-stack.md`
+- `GUIDE-HOW-TO-USE.md`
+- `NEXT-CHAT-CONTEXT.md` (root)
+- `docs/03-BENCHMARKS-AND-SETTINGS.md`
+- `docs/05-NEXT-CHAT-CONTEXT.md`
+- `docs/07-PRIVATE-REPO-NOTES.md`
+- `docs/12-CONTINUATION-HANDOFF.md`
+- `reports/` directory (empty example file)
+
 ## 0.2.1 - 2026-07-05
 
 ### 📊 Benchmarks And Real Workloads
