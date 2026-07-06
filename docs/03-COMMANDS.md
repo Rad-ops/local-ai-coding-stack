@@ -1,7 +1,7 @@
 # ⌨️ Commands
 
 The single canonical cheatsheet for the helper scripts. Every command
-assumes `scripts/install.sh` has been run (so the scripts are in
+assumes `fish scripts/install.sh` has been run (so the scripts are in
 `~/bin/` and on `$PATH`).
 
 ## Profile → command

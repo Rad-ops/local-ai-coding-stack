@@ -67,7 +67,7 @@ cd ~/ai/local-ai-stack
 ## 4. Install the helper scripts
 
 ```fish
-bash ~/ai/local-ai-stack/scripts/install.sh
+fish ~/ai/local-ai-stack/scripts/install.sh
 ```
 
 That copies everything in `scripts/` into `~/bin/` and chmods it. Re-run

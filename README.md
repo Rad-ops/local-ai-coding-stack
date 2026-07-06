@@ -141,16 +141,16 @@ set -Ux OPENROUTER_API_KEY "paste_key_here"
 
 ## 🛠️ Install / restore
 
-From a fresh checkout:
+From a fresh checkout, in a fish shell:
 
 ```fish
 cd ~/ai/local-ai-stack
-bash scripts/install.sh
+fish scripts/install.sh
 ```
 
-That copies every script in `scripts/` into `~/bin/` and chmods them. Then
-follow [`docs/01-INSTALL.md`](docs/01-INSTALL.md) for the rest of the
-setup (llama.cpp build, GGUF downloads, systemd unit).
+That copies every script in `scripts/` into `~/bin/` and chmods them.
+Then follow [`docs/01-INSTALL.md`](docs/01-INSTALL.md) for the rest of
+the setup (llama.cpp build, GGUF downloads, systemd unit).
 
 ---
 
