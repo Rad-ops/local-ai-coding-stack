@@ -1,6 +1,6 @@
 # Next Chat Context
 
-This project is a private local AI coding stack for CachyOS Linux with fish shell, an RTX 4070 Super-class NVIDIA GPU with 12 GB VRAM, about 32 GB RAM, llama.cpp built with CUDA, Aider for local coding, and OpenCode configured for OpenRouter.
+This project is a public local AI coding stack for CachyOS Linux with fish shell, an RTX 4070 Super-class NVIDIA GPU with 12 GB VRAM, about 32 GB RAM, llama.cpp built with CUDA, Aider for local coding, and OpenCode configured for OpenRouter.
 
 Local API:
 
@@ -12,6 +12,18 @@ Project folder:
 
 ```text
 ~/ai/local-ai-stack
+```
+
+GitHub repo:
+
+```text
+https://github.com/Rad-ops/local-ai-coding-stack
+```
+
+Companion real workload:
+
+```text
+https://github.com/Rad-ops/gmail-sorter
 ```
 
 Models:
@@ -39,6 +51,14 @@ Best profiles:
 - `planner`, `gemma4-26b`: Gemma 4 26B MoE Instruct, ctx 8192, q4_0, batch 256, ubatch 64, installed, benchmark pending
 - `planner-safe`, `gemma4-12b`: Gemma 4 12B Instruct, ctx 8192, q4_0, batch 256, ubatch 64, installed, benchmark pending
 
+Real workload benchmark:
+
+- Gmail Sorter Trash rescue local review, 2026-07-05 08:35-16:31 EDT
+- Qwen3.6 reviewed 6,531 bounded rows
+- 10,309,912 prompt tokens at 549.96 average prompt tok/sec
+- 846,873 generated tokens at 90.92 average generation tok/sec
+- 85.03% weighted draft-token acceptance
+
 Main commands:
 
 ```fish
@@ -64,7 +84,6 @@ Safety:
 
 Optional remaining work:
 
-- Re-authenticate GitHub CLI if needed and push the private repo.
 - Install OpenCode if it is still missing.
 - Test OpenCode with OpenRouter.
-- Add better benchmark scripts.
+- Benchmark DeepSeek 32B and Gemma planner profiles with the same care as Qwen3.6.

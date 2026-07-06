@@ -12,7 +12,19 @@ The project folder is:
 ~/ai/local-ai-stack
 ```
 
-The repo documents helper scripts, local GGUF model paths, benchmark results, optimized llama.cpp profiles, Aider workflows, and OpenCode/OpenRouter setup.
+The public GitHub repo is:
+
+```text
+https://github.com/Rad-ops/local-ai-coding-stack
+```
+
+The companion Gmail Sorter repo is:
+
+```text
+https://github.com/Rad-ops/gmail-sorter
+```
+
+The repo documents helper scripts, local GGUF model paths, benchmark results, optimized llama.cpp profiles, Aider workflows, OpenCode/OpenRouter setup, and the real Gmail Sorter workload that proved the Qwen3.6 profile under sustained use.
 
 ## Confirmed Local Models
 
@@ -74,6 +86,7 @@ timestamp,profile,model,test,ctx,cache,batch,ubatch,api_ok,gen_tps,prompt_tps,dr
 2026-07-05T07:00:00-04:00,qwen36,Qwen3.6-35B-A3B-MTP,code_python,131072,q8_0,512,128,yes,84.96,151.74,90.6%,live llama.cpp benchmark
 2026-07-05T07:00:00-04:00,qwen36,Qwen3.6-35B-A3B-MTP,code_cpp,131072,q8_0,512,128,yes,92.69,165.49,94.7%,live llama.cpp benchmark
 2026-07-05T07:00:00-04:00,qwen36,Qwen3.6-35B-A3B-MTP,json_classify,131072,q8_0,512,128,yes,73.48,178.35,100.0%,live llama.cpp benchmark
+2026-07-05T08:35:00-04:00,qwen36,Qwen3.6-35B-A3B-MTP,gmail_sorter_local_review,131072,q8_0,auto,auto,yes,90.92,549.96,85.03%,real Gmail Sorter Trash rescue workload: 6531 rows and 846873 generated tokens
 2026-07-05T11:00:00-04:00,deepseek,DeepSeek-R1-Distill-Qwen-32B,installed,8192,q4_0,256,64,not_run,,,,installed but not benchmarked to avoid interrupting active qwen36 service
 ```
 
@@ -121,8 +134,7 @@ As of this handoff, `opencode` may still need to be installed manually. The wrap
 
 ## Optional Remaining Work
 
-- Re-authenticate GitHub CLI if private repo push failed.
 - Install and test OpenCode.
 - Add OpenRouter model-specific wrappers.
-- Improve benchmarking.
+- Benchmark DeepSeek 32B and the Gemma planner profiles.
 - Optionally test OpenCode against more OpenRouter models.

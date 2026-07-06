@@ -1,5 +1,24 @@
 # Changelog
 
+## 0.2.1 - 2026-07-05
+
+### 📊 Benchmarks And Real Workloads
+
+- Added the Gmail Sorter local-review benchmark extracted from the live Qwen3.6 Trash rescue run: 6,531 reviewed rows, 10,309,912 prompt tokens, 846,873 generated tokens, 549.96 average prompt tok/sec, 90.92 average generation tok/sec, and 85.03% weighted draft-token acceptance.
+- Added `benchmarks/gmail-sorter-local-llm-summary-2026-07-05.csv` so the real mailbox workload sits beside the synthetic benchmark notes.
+- Added `benchmarks/legacy-local-fit-checks-2026-07-04.csv` to preserve the early model-fit checks instead of losing the path that led to the current stack.
+- Added `docs/11-BENCHMARKS-AND-WORKLOADS.md` with a readable explanation of what each benchmark means, what was measured, and what still needs a fair test.
+
+### 🧑‍🔧 Documentation Polish
+
+- Cross-linked the companion Gmail Sorter repo because it is the first serious workload that proved the local stack was useful outside synthetic prompts.
+- Rewrote the commit/exclusion guidance so it explains why keys, models, local reports, logs, OpenCode auth, and whole-machine config trees stay out of Git.
+- Updated next-chat context with the public repo state, the Gmail Sorter benchmark, and the remaining planner/deepseek benchmark gaps.
+
+### 🧹 Repo Hygiene
+
+- Kept generated benchmark summaries small and human-readable, while leaving private prompts, per-message results, logs, and mailbox metadata out of Git.
+
 ## 0.2.0 - 2026-07-05
 
 ### ✨ GitHub Makeover
@@ -29,4 +48,11 @@
 
 ## 0.1.0 - 2026-07-05
 
-- Added the initial local AI coding stack documentation, helper scripts, benchmark notes, and OpenRouter/OpenCode setup notes.
+- Added the first local AI coding stack docs for the CachyOS/fish/RTX 4070 Super-class setup.
+- Added `.env.example` and `.gitignore` so keys, model files, caches, virtualenvs, and generated reports had a safe home outside Git from day one.
+- Added helper commands for the local llama.cpp workflow: `dev-ai`, `llm-switch`, `llm-stop`, `llm-status`, `llm-logs`, and `llm-test`.
+- Added Aider wrappers for local and OpenRouter-backed coding sessions.
+- Added OpenCode/OpenRouter setup wrappers and notes so Codex, Aider, and OpenCode could be tested side by side.
+- Added setup checking and cleanup scripts for local machine hygiene.
+- Added the first benchmark CSV, `benchmarks/local-ai-final-benchmark.csv`, with coder/deepseek/qwen14 speed and fit checks that later informed the move to Qwen3.6 and DeepSeek 32B.
+- Added setup-report and next-chat handoff files so the stack could be rebuilt or continued without relying on memory.

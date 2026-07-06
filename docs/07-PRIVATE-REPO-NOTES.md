@@ -1,4 +1,4 @@
-# Private Repo Notes
+# GitHub Repo Notes
 
 ## Repo Name
 
@@ -18,11 +18,15 @@ https://github.com/Rad-ops/local-ai-coding-stack.git
 
 ## Privacy
 
-Created as a private GitHub repo and pushed to origin/main.
+Created as a private GitHub repo first, then made public after the local cleanup pass removed generated reports, model binaries, local auth, and machine-specific files. The public URL is:
+
+```text
+https://github.com/Rad-ops/local-ai-coding-stack
+```
 
 ## Push Status
 
-Initial commit pushed to `origin/main`.
+Current documentation and scripts are pushed to `origin/main`.
 
 ## What Was Committed
 
@@ -35,20 +39,15 @@ Initial commit pushed to `origin/main`.
 
 ## What Was Intentionally Excluded
 
-- OpenRouter keys
-- `.env`
-- GGUF model files
-- `~/ai/models`
-- `~/.config`
-- `~/.local/share/opencode/auth.json`
-- caches
-- virtualenvs
-- generated local reports
-- logs
+- OpenRouter keys, `.env`, and token files stay local because they can open paid accounts or personal services.
+- GGUF model files and `~/ai/models` stay local because they are large upstream artifacts, not source code.
+- `~/.config` stays out because it is a whole-machine configuration tree. When a setting matters, document the exact setting instead of committing the directory.
+- `~/.local/share/opencode/auth.json` stays local because it is OpenCode login/session state.
+- Caches, virtualenvs, reports, and logs stay out because they are rebuildable and often contain local paths, prompts, timings, or machine-only details.
 
 ## Push Future Updates
 
-To create the repo from a fresh checkout if needed:
+To create a private fork from a fresh checkout if needed:
 
 ```fish
 gh auth login -h github.com

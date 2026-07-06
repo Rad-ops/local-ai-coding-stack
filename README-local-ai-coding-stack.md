@@ -4,9 +4,11 @@
   <img src="assets/local-ai-stack-hero.png" alt="Local AI coding stack workstation with model-routing lanes" width="100%">
 </p>
 
-**Version:** `0.2.0` (`20260705`)
+**Version:** `0.2.1` (`20260705`)
 
 This repo is the organized reference project for a private local AI coding stack on CachyOS Linux. It records the installed local models, optimized llama.cpp settings, helper scripts, Aider workflow, OpenRouter cloud fallback, and OpenCode setup notes.
+
+The paired application repo is [Gmail Sorter](https://github.com/Rad-ops/gmail-sorter). That project is where the local Qwen3.6 profile got its first long practical workout.
 
 ## 🧭 Architecture
 
@@ -55,6 +57,7 @@ Codex is used separately for structured repo edits and project maintenance.
 | Profile | Model | Context | Gen t/s | Prompt t/s | Notes |
 | --- | --- | ---: | ---: | ---: | --- |
 | `qwen36` | Qwen3.6-35B-A3B-MTP | 131072 | 70.10-92.69 | 138.60-178.35 | Measured across code, explanation, QA, and JSON classification probes |
+| `qwen36` | Qwen3.6-35B-A3B-MTP | 131072 | 90.92 avg on Gmail Sorter review | 549.96 avg on Gmail Sorter review | 6,531 bounded mailbox review calls from the local service journal |
 | `deepseek` | DeepSeek-R1-Distill-Qwen-32B | 8192 | not run | not run | Installed after the benchmark; not started to avoid interrupting active Qwen work |
 | `planner`, `gemma4-26b` | Gemma 4 26B MoE Instruct | 8192 | installed | benchmark pending | Preferred planner/architect target |
 | `planner-safe`, `gemma4-12b` | Gemma 4 12B Instruct | 8192 | installed | benchmark pending | Safer planner fallback |
@@ -103,7 +106,7 @@ The cleanup script must not delete active model directories, `~/ai/llama.cpp`, o
 ## Future Improvement Ideas
 
 - Add OpenRouter model-specific launchers for Aider.
-- Add a better benchmark suite for prompt processing, edit quality, and long-context behavior.
+- Benchmark the Gemma planner profiles and DeepSeek 32B fallback with the same care as the Qwen3.6 Gmail Sorter run.
 - Test OpenCode once installed and connected.
 - Add a small restore script that copies `scripts/` into `~/bin` with confirmation.
 - Download and benchmark the Gemma 4 26B MoE planner GGUF, then fall back to Gemma 4 12B if needed.

@@ -50,7 +50,7 @@ OpenCode should show OpenRouter as the connected provider after `/connect`. Runn
 
 ## Avoid Committing Keys
 
-`.gitignore` excludes `.env`, key/token/secret patterns, caches, auth files, and GGUF models. Also avoid adding:
+The repo keeps provider keys and local login state out of Git because those files belong to the machine, not the project. `.env` can unlock paid APIs, OpenCode auth files can contain local session state, and GGUF files are huge upstream downloads that make the repo unusable for normal cloning. Also avoid adding:
 
 ```text
 ~/.local/share/opencode/auth.json

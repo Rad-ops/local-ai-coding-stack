@@ -1,0 +1,14 @@
+source,timestamp,profile_or_model,model_alias,ctx,cache,batch,ubatch,api_ok,reply_ok,gen_tps,llama_vram_mib,total_vram_mib,ram_used,notes
+local-ai-benchmark-results.csv,2026-07-04T13:51:40-04:00,coder,coder,4096,q8_0,512,128,yes,,54.35,,128,5.7Gi/30Gi,Early fit/smoke check before the Qwen3.6 profile became the default.
+local-ai-benchmark-results.csv,2026-07-04T13:51:56-04:00,coder,coder,8192,q8_0,512,128,yes,,51.32,,128,5.7Gi/30Gi,Early fit/smoke check before the Qwen3.6 profile became the default.
+local-ai-benchmark-results.csv,2026-07-04T13:52:11-04:00,coder,coder,8192,q4_0,256,64,yes,,51.57,,127,5.7Gi/30Gi,Early fit/smoke check before the Qwen3.6 profile became the default.
+local-ai-benchmark-results.csv,2026-07-04T13:52:28-04:00,coder,coder,16384,q4_0,256,64,yes,,49.24,,128,5.6Gi/30Gi,Early fit/smoke check before the Qwen3.6 profile became the default.
+local-ai-benchmark-results.csv,2026-07-04T13:53:01-04:00,deepseek,deepseek,8192,q8_0,512,128,yes,,22.16,,127,5.6Gi/30Gi,Earlier DeepSeek fit check before the fallback was updated to the 32B profile.
+local-ai-benchmark-results.csv,2026-07-04T13:53:38-04:00,deepseek,deepseek,16384,q8_0,512,128,yes,,17.66,,127,5.9Gi/30Gi,Earlier DeepSeek fit check before the fallback was updated to the 32B profile.
+local-ai-benchmark-results.csv,2026-07-04T13:54:13-04:00,qwen14,qwen14,8192,q8_0,512,128,yes,,20.86,,127,5.7Gi/30Gi,Obsolete Qwen14 check kept here only as history; the local Qwen14 model was later removed.
+local-ai-benchmark-results.csv,2026-07-04T13:54:50-04:00,qwen14,qwen14,16384,q8_0,512,128,yes,,17.17,,127,5.8Gi/30Gi,Obsolete Qwen14 check kept here only as history; the local Qwen14 model was later removed.
+local-ai-final-benchmark.csv,2026-07-04T14:00:46-04:00,coder-fast,coder,4096,q8_0,512,128,yes,yes,40.50,9698MiB,10920,5.8Gi/30Gi,Earlier final smoke check before Qwen3.6 became the named default.
+local-ai-final-benchmark.csv,2026-07-04T14:01:07-04:00,coder-default,coder,8192,q8_0,512,128,yes,yes,41.87,9578MiB,10713,5.8Gi/30Gi,Earlier final smoke check before Qwen3.6 became the named default.
+local-ai-final-benchmark.csv,2026-07-04T14:01:31-04:00,coder-big,coder,16384,q4_0,256,64,yes,yes,33.86,9704MiB,10877,5.8Gi/30Gi,Historical profile only; the active Qwen3.6 stack no longer uses coder-big.
+local-ai-final-benchmark.csv,2026-07-04T14:02:16-04:00,deepseek-default,deepseek,8192,q8_0,512,128,yes,yes,18.81,9594MiB,10704,5.5Gi/30Gi,Earlier DeepSeek smoke check before the fallback was updated to the 32B profile.
+local-ai-final-benchmark.csv,2026-07-04T14:03:00-04:00,qwen14-default,qwen14,8192,q8_0,512,128,yes,no,20.02,9530MiB,10625,5.6Gi/30Gi,Obsolete Qwen14 check kept here only as history; reply validation failed.

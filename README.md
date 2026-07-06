@@ -9,9 +9,11 @@
   llama.cpp CUDA · Aider · Codex · OpenRouter · OpenCode
 </p>
 
-**Version:** `0.2.0` (`20260705`)
+**Version:** `0.2.1` (`20260705`)
 
 Private documentation and helper scripts for a local AI coding workflow on CachyOS Linux. The stack uses llama.cpp with CUDA for local GGUF models, Aider for local and OpenRouter-assisted coding, Codex for repo work, and OpenCode as an optional OpenRouter-only coding agent.
+
+Companion project: [Gmail Sorter](https://github.com/Rad-ops/gmail-sorter). Gmail Sorter is the first real workload that used this stack heavily: it called the local Qwen3.6 server for thousands of bounded Trash rescue reviews.
 
 ## 🧭 Stack At A Glance
 
@@ -61,6 +63,18 @@ flowchart LR
 | `deepseek` | DeepSeek-R1-Distill-Qwen-32B | 8192 | q4_0 | 256 | 64 | Reasoning/debugging fallback |
 | `planner`, `gemma4`, `gemma4-26b` | Gemma 4 26B MoE Instruct | 8192 | q4_0 | 256 | 64 | Preferred planner/architect test |
 | `planner-safe`, `gemma4-12b` | Gemma 4 12B Instruct | 8192 | q4_0 | 256 | 64 | Safer planner fallback if 26B MoE does not fit |
+
+## 📊 Benchmarks
+
+The repo keeps both clean benchmark rows and the Gmail Sorter workload summary. I keep summaries here rather than raw private logs because the real Gmail run contains message metadata.
+
+| Workload | Profile | Main result | Where |
+| --- | --- | --- | --- |
+| Synthetic coding/classification probes | `qwen36` | 70.10-92.69 gen tok/s, 138.60-178.35 prompt tok/s | [`benchmarks/local-ai-final-benchmark.csv`](benchmarks/local-ai-final-benchmark.csv) |
+| Gmail Sorter Trash rescue review | `qwen36` | 6,531 requests, 10.3M prompt tokens, 846K generated tokens, 90.92 avg eval tok/s, 85.03% weighted draft acceptance | [`benchmarks/gmail-sorter-local-llm-summary-2026-07-05.csv`](benchmarks/gmail-sorter-local-llm-summary-2026-07-05.csv) |
+| Older July 4 fit checks | historical `coder`, `deepseek`, `qwen14` | Kept only to show the path that led to the current stack | [`benchmarks/legacy-local-fit-checks-2026-07-04.csv`](benchmarks/legacy-local-fit-checks-2026-07-04.csv) |
+
+Readable notes are in [Benchmarks And Real Workloads](docs/11-BENCHMARKS-AND-WORKLOADS.md).
 
 ## 🏗️ Planner Model Shortlist
 
@@ -143,6 +157,7 @@ dev-ai status
 
 - [Model decision log](docs/09-DECISION-LOG.md)
 - [Cleanup log for 2026-07-05](docs/10-CLEANUP-LOG-2026-07-05.md)
+- [Benchmarks and real workloads](docs/11-BENCHMARKS-AND-WORKLOADS.md)
 - [Planner model shortlist](docs/08-PLANNER-MODEL-SHORTLIST.md)
 - [Hardware and model notes](docs/01-HARDWARE-AND-MODELS.md)
 
@@ -159,15 +174,14 @@ dev-ai status
 
 ## 🚫 What Not To Commit
 
-Excluded by `.gitignore`:
+The `.gitignore` is strict because this repo is public and most of the working files around local AI are either huge, private, or machine-specific:
 
-- `.env`, key, token, and secret files
-- `*.gguf`
-- `models/` and `ai/models/`
-- virtualenvs, node modules, caches
-- generated local reports and logs
-- local OpenCode auth files such as `~/.local/share/opencode/auth.json`
-- `~/.config`
+- `.env`, keys, tokens, and secret files stay out because they can open paid APIs or personal accounts.
+- `*.gguf`, `models/`, and `ai/models/` stay out because model files are huge and should be downloaded from their source, not cloned from GitHub.
+- Virtualenvs, node modules, and caches stay out because they are rebuildable and make diffs unreadable.
+- Generated reports and logs stay out because they can include local paths, prompts, timings, or mailbox metadata.
+- OpenCode auth files such as `~/.local/share/opencode/auth.json` stay out because they are local login state, not project source.
+- `~/.config` stays out because it is an entire machine configuration tree; when a config detail matters, document the exact setting instead of committing the directory.
 
 ## Restore Scripts Into `~/bin`
 
